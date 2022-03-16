@@ -31,3 +31,43 @@ class SadState(State):
         
 # unable to execute since cant instantiate abstract class State with abstract method in_state
 # s1 = State()
+
+class Event(ABC):
+    
+    @abstractmethod
+    def in_event(self):
+        pass
+    
+class LostMoney(Event):
+    
+    def in_event(self):
+        print("I Lose Money")
+        
+class RecvMoney(Event):
+    
+    def in_event(self):
+        print("I win Money")
+        
+        
+class StateMachine():
+    
+    def __init__(self):
+        self.currstate = HappyState()
+        
+    def current_state(self):
+        print(self.currstate.in_state())
+        
+    def recv_event(self,event):
+        if isinstance(event, LostMoney):
+            self.currstate = SadState()
+        else:
+            self.currstate = HappyState()
+
+if __name__ == "__main__":            
+    sm = StateMachine()
+    sm.current_state()
+    sm.recv_event(LostMoney())
+    sm.current_state()
+    sm.recv_event(RecvMoney())
+    sm.current_state()
+
